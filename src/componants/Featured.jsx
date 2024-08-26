@@ -4,7 +4,6 @@ import Book from "./ui/Book.jsx";
 import { books } from "../data";
 
 export default function Featured() {
-  console.log(books.filter((book) => book.rating === 5).slice(0, 4));
   return (
     <section id="features">
       <div className="container">
