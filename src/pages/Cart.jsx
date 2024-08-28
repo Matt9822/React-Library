@@ -1,6 +1,10 @@
 import React from "react";
 
-export default function Cart({ book }) {
+/**
+ * ({ cart, changeQuantity }) are both props that we are passing in through the <Route/> in App.js.
+ * Props make it possible to use functions and some other things across files
+ */
+export default function Cart({ cart, changeQuantity }) {
   return (
     <div id="books__body">
       <main id="books__main">
@@ -16,31 +20,49 @@ export default function Cart({ book }) {
                 <span className="cart__total">Price</span>
               </div>
               <div className="car__body">
-                <div className="cart__item">
-                  <div className="cart__book">
-                    <img
-                      src="https://covers.openlibrary.org/b/id/8091016-L.jpg"
-                      alt=""
-                      className="cart__book--img"
-                    />
-                    <div className="cart__book--info">
-                      <span className="cart__book--title">
-                        Crack the Coding Interview
-                      </span>
-                      <span className="cart__book--price">20</span>
-                      <button className="cart__book--remove">Remove</button>
+                {/*
+                when using map you need to use a "return()" statement 
+                */}
+                {cart.map((book) => {
+                  return (
+                    <div className="cart__item">
+                      <div className="cart__book">
+                        <img
+                          src={book.url}
+                          alt=""
+                          className="cart__book--img"
+                        />
+                        <div className="cart__book--info">
+                          <span className="cart__book--title">
+                            {book.title}
+                          </span>
+                          <span className="cart__book--price">
+                            ${(book.salePrice || book.originalPrice).toFixed(2)}
+                          </span>
+                          <button className="cart__book--remove">Remove</button>
+                        </div>
+                      </div>
+                      <div className="cart__quantity">
+                        <input
+                          type="number"
+                          min={0}
+                          max={99}
+                          value={book.quantity}
+                          onChange={(event) =>
+                            changeQuantity(book, event.target.value)
+                          }
+                          className="cart__input"
+                        />
+                      </div>
+                      <div className="cart__total">
+                        $
+                        {(
+                          (book.salePrice || book.originalPrice) * book.quantity
+                        ).toFixed(2)}
+                      </div>
                     </div>
-                  </div>
-                  <div className="cart__quantity">
-                    <input
-                      type="number"
-                      min={0}
-                      max={99}
-                      className="car__input"
-                    />
-                  </div>
-                  <div className="cart__total">$10</div>
-                </div>
+                  );
+                })}
               </div>
             </div>
             <div className="total">

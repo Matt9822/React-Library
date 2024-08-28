@@ -1,17 +1,25 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Rating from "../componants/ui/Rating";
 import Price from "../componants/ui/Price";
 import Book from "../componants/ui/Book";
 import Cart from "./Cart";
 
-export default function BookInfo({ books, addToCart }) {
+export default function BookInfo({ books, addToCart, cart }) {
   const { id } = useParams();
 
   //the + converts both book.id and id to a number becouse they need to be the same value and
   //type when you use ===
   const book = books.find((book) => +book.id === +id);
+
+  function addBookToCart(book) {
+    addToCart(book);
+  }
+
+  function bookInCart() {
+    return cart.find(book => book.id === +id)
+  }
 
   return (
     <div id="books__body">
@@ -56,6 +64,7 @@ export default function BookInfo({ books, addToCart }) {
                     qui.
                   </p>
                 </div>
+
                 {/*
                   onClick={() => addToCart(book)} The reson we need 
                   to make the "onClick function" a call back function is so
@@ -64,9 +73,15 @@ export default function BookInfo({ books, addToCart }) {
                   parameters through it you dont need the () e.g. onClick={addToCart} 
                   and it will only be called on click
                 */}
-                <button className="btn" onClick={() => addToCart(book)}>
-                  Add to cart
-                </button>
+                {bookInCart() ? (
+                  <Link to={`/cart`} className="book__link">
+                  <button className="btn">View Cart</button>
+                  </Link>
+                ) : (
+                  <button className="btn" onClick={() => addBookToCart(book)}>
+                    Add to cart
+                  </button>
+                )}
               </div>
             </div>
           </div>
