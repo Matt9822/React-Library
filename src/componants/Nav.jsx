@@ -1,10 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LibraryLogo from "../assets/Library.svg";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-
-export default function Nav() {
+export default function Nav({ numberOfItems }) {
   function openMenu() {
     document.body.classList += " menu--open";
   }
@@ -14,9 +13,9 @@ export default function Nav() {
   return (
     <nav>
       <div className="nav__container">
-        <a href="/">
+        <Link to="/" className="nav__link">
           <img src={LibraryLogo} alt="" className="logo" />
-        </a>
+        </Link>
         <ul className="nav__links">
           <li className="nav__list">
             <Link to="/" className="nav__link">
@@ -35,7 +34,9 @@ export default function Nav() {
             <Link to="/cart" className="nav__link">
               <FontAwesomeIcon icon="shopping-cart" />
             </Link>
-            <span className="cart__length">3</span>
+            {numberOfItems > 0 && (
+              <span className="cart__length">{numberOfItems}</span>
+            )}
           </li>
         </ul>
         <div className="menu__backdrop" onClick={closeMenu}>

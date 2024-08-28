@@ -4,7 +4,6 @@ import { Link, useParams } from "react-router-dom";
 import Rating from "../componants/ui/Rating";
 import Price from "../componants/ui/Price";
 import Book from "../componants/ui/Book";
-import Cart from "./Cart";
 
 export default function BookInfo({ books, addToCart, cart }) {
   const { id } = useParams();

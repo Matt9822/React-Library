@@ -20,7 +20,7 @@ function App() {
   function addToCart(book) {
     setCart([...cart, { ...book, quantity: 1 }]);
   }
-  
+
   /**
    * function changeQuantity(book, quantity) {
     setCart(cart.map(item => {
@@ -51,14 +51,34 @@ function App() {
     );
   }
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+  /**
+   * "setCart(cart.filter(book => book.id !== item.id))" is how you can remove a item 
+   * from an array the ".filter" is looping through "book" "cart.filter(book =>)" then
+   * it is saying if "book.id" is not === to "item.id" then puts it into a new array 
+   * and leave out any "book.id" that matches "item.id" here is a simple example
+   * "[1, 2, 3, 4].filter(num => num !== 3) Result (3)[1, 2, 4]" if you did === 3 it 
+   * would return as "[3]" 
+   */
+  function removeItem(item) {
+    setCart(cart.filter(book => book.id !== item.id))
+  }
+
+  function numberOfItems() {
+    let counter = 0;
+    cart.forEach((item) =>{
+      counter += item.quantity
+    })
+    return counter;
+  }
+
+  // useEffect(() => {
+  //   console.log(cart);
+  // }, [cart]);
 
   return (
     <Router>
       <div className="App">
-        <Nav />
+        <Nav numberOfItems={numberOfItems()}/>
         <Route path="/" exact component={Home} />
         <Route path="/books" exact render={() => <Books books={books} />} />
         <Route
@@ -70,7 +90,7 @@ function App() {
         <Route
           path="/cart"
           render={() => (
-            <Cart books={books} cart={cart} changeQuantity={changeQuantity} />
+            <Cart books={books} cart={cart} changeQuantity={changeQuantity} removeItem={removeItem}/>
           )}
         />
         <Footer />
